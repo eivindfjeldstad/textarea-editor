@@ -1,6 +1,6 @@
 {
   "name": "textarea-editor",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Simple markdown editor for textareas",
   "main": "build/index.js",
   "scripts": {
