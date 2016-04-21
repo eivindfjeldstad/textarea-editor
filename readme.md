@@ -29,7 +29,7 @@ assert(textarea.value == '_Hello_ world!');
 
 For an example with a UI, see the `example` folder.
 
-All default commands are exposed via `TextareaEditor.commands`, so you can modify to fit your application (e.g. adding a UI for browsing images).
+All default commands are exposed via `TextareaEditor.commands`, and can easily be modified to fit your application (e.g. adding a UI for browsing images).
 
 You can also execute custom commands directly:
 
@@ -38,7 +38,7 @@ editor.format({ prefix: '#{', suffix: '}' });
 assert(textarea.value == '#{Hello world!}');
 ```
 
-For examples of commands, check out the source code.
+For example commands, check out the source code.
 
 ## License
 
