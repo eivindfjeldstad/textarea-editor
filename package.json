@@ -4,7 +4,7 @@
   "description": "Simple markdown editor for textareas",
   "main": "build/index.js",
   "scripts": {
-    "build": "browserify index.js -o build/index.js --s TextareaEditor",
+    "build": "mkdir -p build && browserify index.js -o build/index.js --s TextareaEditor",
     "watch": "watchify example/index.js -o example/bundle.js -dv",
     "serve": "ecstatic -p 3000 example",
     "start": "npm run serve & npm run watch",
