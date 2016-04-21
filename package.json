@@ -4,15 +4,17 @@
   "description": "Simple markdown editor for textareas",
   "main": "build/index.js",
   "scripts": {
-    "build": "mkdir -p build && browserify index.js -o build/index.js --s TextareaEditor",
+    "build": "babel -d build index.js",
     "watch": "watchify example/index.js -o example/bundle.js -dv",
     "serve": "ecstatic -p 3000 example",
     "start": "npm run serve & npm run watch",
-    "test": "npm run build && mocha-phantomjs -R spec test/testrunner.html",
+    "test": "mochify -R spec",
     "prepublish": "npm run build"
   },
   "browserify": {
-    "transform": [["babelify", { "presets": ["es2015"] }]]
+    "transform": [
+      "babelify"
+    ]
   },
   "repository": {
     "type": "git",
@@ -39,10 +41,13 @@
     "ecstatic": "^1.4.0",
     "mocha": "^2.4.5",
     "mocha-phantomjs": "^4.0.2",
+    "mochify": "^2.17.0",
     "watchify": "^3.7.0"
   },
   "dependencies": {
     "escape-string-regexp": "^1.0.5"
   },
-  "files": ["build"]
+  "files": [
+    "build"
+  ]
 }

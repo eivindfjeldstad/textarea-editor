@@ -1,25 +1,27 @@
-var TextareaEditor = window.TextareaEditor;
-var expect = chai.expect;
-var textarea, editor;
+import 'babel-polyfill';
+import TextareaEditor from '..';
+import {expect} from 'chai';
 
-beforeEach(function () {
+let textarea, editor;
+
+beforeEach(() => {
   textarea = document.createElement('textarea');
   document.body.appendChild(textarea);
   editor = new TextareaEditor(textarea);
 })
 
-afterEach(function () {
+afterEach(() => {
   document.body.removeChild(textarea);
 })
 
 describe('TextareaEditor', function () {
-  it('should have a constructor', function () {
+  it('should have a constructor', () => {
     expect(editor).to.be.an.instanceof(TextareaEditor);
   })
 
-  describe('#range()', function () {
-    context('when given an array', function () {
-      it('should set the textbox selection', function () {
+  describe('#range()', () => {
+    context('when given an array', () => {
+      it('should set the textbox selection', () => {
         textarea.value = 'Hello World!';
         editor.range([2, 5]);
         expect(textarea.selectionStart).to.eq(2);
@@ -27,8 +29,8 @@ describe('TextareaEditor', function () {
       })
     })
 
-    context('when called without arguments', function () {
-      it('should return the current range', function () {
+    context('when called without arguments', () => {
+      it('should return the current range', () => {
         textarea.value = 'Hello World!';
         textarea.selectionStart = 2;
         textarea.selectionEnd = 5;
@@ -37,14 +39,14 @@ describe('TextareaEditor', function () {
     })
   })
 
-  describe('#insert()', function () {
-    it('should insert given text into the editor', function () {
-      var text = 'Hello World!'
+  describe('#insert()', () => {
+    it('should insert given text into the editor', () => {
+      const text = 'Hello World!'
       editor.insert(text);
       expect(textarea.value).to.eq(text);
     })
 
-    it('should insert at the current selection', function () {
+    it('should insert at the current selection', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.insert('Mars');
@@ -52,8 +54,8 @@ describe('TextareaEditor', function () {
     })
   })
 
-  describe('#selection()', function () {
-    it('should return the text before, inside and after the current selection', function () {
+  describe('#selection()', () => {
+    it('should return the text before, inside and after the current selection', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       expect(editor.selection()).to.eql({
@@ -64,8 +66,8 @@ describe('TextareaEditor', function () {
     })
   })
 
-  describe('#format()', function () {
-    it('should accept a format with prefix and suffix', function () {
+  describe('#format()', () => {
+    it('should accept a format with prefix and suffix', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.format({
@@ -75,7 +77,7 @@ describe('TextareaEditor', function () {
       expect(textarea.value).to.eq('Hello **World**!');
     })
 
-    it('should accept a format with prefix and suffix functions', function () {
+    it('should accept a format with prefix and suffix functions', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.format({
@@ -85,35 +87,35 @@ describe('TextareaEditor', function () {
       expect(textarea.value).to.eq('Hello 0WorldWorld0!');
     })
 
-    it('should accept shorthand prefix and suffix', function () {
-      var text = 'Hello World!'
+    it('should accept shorthand prefix and suffix', () => {
+      const text = 'Hello World!'
       textarea.value = text;
       editor.range([6, 11]);
       editor.format({ prefix: '**', suffix: '**' });
       expect(textarea.value).to.eq('Hello **World**!');
     })
 
-    it('should preserve selected text', function () {
-      var text = 'Hello World!'
+    it('should preserve selected text', () => {
+      const text = 'Hello World!'
       textarea.value = text;
       editor.range([6, 11]);
       editor.format({ prefix: '**', suffix: '**' });
       expect(editor.range()).to.eql([8, 13]);
     })
 
-    context('when given format has `block` set to true', function () {
-      context('when there is no text before or after the current selection', function () {
-        it('should not insert newlines', function () {
-          var text = 'Hello World!';
+    context('when given format has `block` set to true', () => {
+      context('when there is no text before or after the current selection', () => {
+        it('should not insert newlines', () => {
+          const text = 'Hello World!';
           textarea.value = text;
           editor.range([0, text.length]);
           editor.format({ block: true });
           expect(textarea.value).to.eq(text);
         })
 
-        it('should preserve selected text', function () {
-          var text = 'Hello World!';
-          var range = [0, text.length];
+        it('should preserve selected text', () => {
+          const text = 'Hello World!';
+          const range = [0, text.length];
           textarea.value = text;
           editor.range(range);
           editor.format({ block: true });
@@ -121,26 +123,26 @@ describe('TextareaEditor', function () {
         })
       })
 
-      context('when there is text before the current selection', function () {
-        it('should insert newlines before', function () {
-          var text = 'Hello World!';
+      context('when there is text before the current selection', () => {
+        it('should insert newlines before', () => {
+          const text = 'Hello World!';
           textarea.value = text;
           editor.range([1, text.length]);
           editor.format({ block: true });
           expect(textarea.value).to.eq('H\n\nello World!');
         })
 
-        it('should not force more than two newlines in a row', function () {
-          var text = 'H\nello World!';
+        it('should not force more than two newlines in a row', () => {
+          const text = 'H\nello World!';
           textarea.value = text;
           editor.range([2, text.length]);
           editor.format({ block: true });
           expect(textarea.value).to.eq('H\n\nello World!');
         })
 
-        it('should preserve selected text', function () {
-          var text = 'Hello World!';
-          var range = [1, text.length];
+        it('should preserve selected text', () => {
+          const text = 'Hello World!';
+          const range = [1, text.length];
           textarea.value = text;
           editor.range(range);
           editor.format({ block: true });
@@ -148,26 +150,26 @@ describe('TextareaEditor', function () {
         })
       })
 
-      context('when there is text after the current selection', function () {
-        it('should insert newlines after', function () {
-          var text = 'Hello World!';
+      context('when there is text after the current selection', () => {
+        it('should insert newlines after', () => {
+          const text = 'Hello World!';
           textarea.value = text;
           editor.range([0, text.length - 1]);
           editor.format({ block: true });
           expect(textarea.value).to.eq('Hello World\n\n!');
         })
 
-        it('should not force more than two newlines in a row', function () {
-          var text = 'Hello World\n!';
+        it('should not force more than two newlines in a row', () => {
+          const text = 'Hello World\n!';
           textarea.value = text;
           editor.range([0, text.length - 2]);
           editor.format({ block: true });
           expect(textarea.value).to.eq('Hello World\n\n!');
         })
 
-        it('should preserve selected text', function () {
-          var text = 'Hello World!';
-          var range = [0, text.length - 1];
+        it('should preserve selected text', () => {
+          const text = 'Hello World!';
+          const range = [0, text.length - 1];
           textarea.value = text;
           editor.range(range);
           editor.format({ block: true });
@@ -176,9 +178,9 @@ describe('TextareaEditor', function () {
       })
     })
 
-    context('when given format has `multiline` set to true', function () {
-      it('should insert prefix and suffix on each line', function () {
-        var text = 'Hello\nWorld!';
+    context('when given format has `multiline` set to true', () => {
+      it('should insert prefix and suffix on each line', () => {
+        const text = 'Hello\nWorld!';
         textarea.value = text;
         editor.range([0, text.length]);
         editor.format({
@@ -189,16 +191,16 @@ describe('TextareaEditor', function () {
         expect(textarea.value).to.eq('0_Hello_0\n1_World!_1');
       })
 
-      it('should preserve selected text', function () {
-        var text = 'Hello\nWorld!';
+      it('should preserve selected text', () => {
+        const text = 'Hello\nWorld!';
         textarea.value = text;
         editor.range([0, text.length]);
         editor.format({ multiline: true, prefix: '**', suffix: '**' });
         expect(editor.range()).to.eql([0, 20]);
       })
 
-      context('when no text is selected', function () {
-        it('should set selection between prefix and suffix', function () {
+      context('when no text is selected', () => {
+        it('should set selection between prefix and suffix', () => {
           editor.format({ multiline: true, prefix: '**', suffix: '**' });
           expect(editor.range()).to.eql([2, 2]);
         })
@@ -206,33 +208,33 @@ describe('TextareaEditor', function () {
     })
   })
 
-  describe('#unformat()', function () {
-    it('should remove prefix and suffix', function () {
-      var text = '**Hello World!**';
+  describe('#unformat()', () => {
+    it('should remove prefix and suffix', () => {
+      const text = '**Hello World!**';
       textarea.value = text;
       editor.range([0, text.length]);
       editor.unformat({ prefix: '**', suffix: '**' });
       expect(textarea.value).to.eq('Hello World!');
     })
 
-    it('should remove prefix and suffix just outside selection', function () {
-      var text = '**Hello World!**';
+    it('should remove prefix and suffix just outside selection', () => {
+      const text = '**Hello World!**';
       textarea.value = text;
       editor.range([2, text.length - 2]);
       editor.unformat({ prefix: '**', suffix: '**' });
       expect(textarea.value).to.eq('Hello World!');
     })
 
-    it('should preserve selected text', function () {
-      var text = '**Hello World!**';
+    it('should preserve selected text', () => {
+      const text = '**Hello World!**';
       textarea.value = text;
       editor.range([0, text.length]);
       editor.unformat({ prefix: '**', suffix: '**' });
       expect(editor.range()).to.eql([0, text.length - 4]);
     })
 
-    it('should use prefix and suffix pattern, if given', function () {
-      var text = '9Hello World!2';
+    it('should use prefix and suffix pattern, if given', () => {
+      const text = '9Hello World!2';
       textarea.value = text;
       editor.range([0, text.length]);
       editor.unformat({
@@ -242,8 +244,8 @@ describe('TextareaEditor', function () {
       expect(textarea.value).to.eq('Hello World!');
     })
 
-    it('should work with multiline commands', function () {
-      var text = '**Hello**\n**World!**';
+    it('should work with multiline commands', () => {
+      const text = '**Hello**\n**World!**';
       textarea.value = text;
       editor.range([0, text.length]);
       editor.unformat({ multiline: true, prefix: '**', suffix: '**' });
@@ -252,36 +254,36 @@ describe('TextareaEditor', function () {
     })
   })
 
-  describe('#hasFormat()', function () {
-    it('returns `true` if current selection has given format', function () {
-      var text = '**Hello World!**';
+  describe('#hasFormat()', () => {
+    it('returns `true` if current selection has given format', () => {
+      const text = '**Hello World!**';
       textarea.value = text;
       editor.range([0, text.length]);
-      var result = editor.hasFormat({ prefix: '**', suffix: '**' });
+      const result = editor.hasFormat({ prefix: '**', suffix: '**' });
       expect(result).to.be.true
     })
 
-    it('returns `false` if current selection does not have given format', function () {
-      var text = 'H**ello World**!';
+    it('returns `false` if current selection does not have given format', () => {
+      const text = 'H**ello World**!';
       textarea.value = text;
       editor.range([0, text.length]);
-      var result = editor.hasFormat({ prefix: '**', suffix: '**' });
+      const result = editor.hasFormat({ prefix: '**', suffix: '**' });
       expect(result).to.be.false
     })
 
-    it('should work when prefix and suffix is just outside current selection', function () {
-      var text = '**Hello World!**';
+    it('should work when prefix and suffix is just outside current selection', () => {
+      const text = '**Hello World!**';
       textarea.value = text;
       editor.range([2, text.length - 2]);
-      var result = editor.hasFormat({ prefix: '**', suffix: '**' });
+      const result = editor.hasFormat({ prefix: '**', suffix: '**' });
       expect(result).to.be.true
     })
 
-    it('should work with multiline commands', function () {
-      var text = '**Hello**\n**World!**';
+    it('should work with multiline commands', () => {
+      const text = '**Hello**\n**World!**';
       textarea.value = text;
       editor.range([0, text.length]);
-      var result = editor.hasFormat({ prefix: '**', suffix: '**', multiline: true });
+      const result = editor.hasFormat({ prefix: '**', suffix: '**', multiline: true });
       expect(result).to.be.true
     })
   })

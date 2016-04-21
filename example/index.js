@@ -1,4 +1,4 @@
-const TextareaEditor = require('..');
+import TextareaEditor from '..';
 
 const textarea = document.querySelector('textarea');
 const toolbar = document.querySelector('.toolbar');

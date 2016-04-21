@@ -1,10 +1,10 @@
-const escape = require('escape-string-regexp');
+import {default as escape} from 'escape-string-regexp';
 
 /**
  * Formats
  */
 
-const formats = {
+export const formats = {
   // bold text
   bold: {
     prefix: '**',
@@ -86,7 +86,7 @@ const formats = {
   }
 };
 
-class Editor {
+export default class TextareaEditor {
   /**
    * Constructor
    *
@@ -101,7 +101,7 @@ class Editor {
    * Set or get range
    *
    * @param {Array} [range]
-   * @return {Array|Editor}
+   * @return {Array|TextareaEditor}
    */
 
   range(range) {
@@ -116,7 +116,7 @@ class Editor {
    * Insert text at cursor
    *
    * @param {String} text
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   insert(text) {
@@ -128,9 +128,9 @@ class Editor {
   }
 
   /**
-   * Set foucs on the editor's element
+   * Set foucs on the TextareaEditor's element
    *
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   focus() {
@@ -178,7 +178,7 @@ class Editor {
    *
    * @param {String} command
    * @param {String} name - name of format
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   exec(command, name) {
@@ -198,7 +198,7 @@ class Editor {
    * Toggle `format` on current selection
    *
    * @param {Object} format
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   toggle(format) {
@@ -211,7 +211,7 @@ class Editor {
    * Format current selcetion with `format`
    *
    * @param {String} name - name of format
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   format(name) {
@@ -265,7 +265,7 @@ class Editor {
    * Remove given formatting from current selection
    *
    * @param {String} name - name of format
-   * @return {Editor}
+   * @return {TextareaEditor}
    */
 
   unformat(name) {
@@ -326,12 +326,6 @@ class Editor {
     return formatted.length == lines.length;
   }
 }
-
-/**
- * Expose formats
- */
-
-Editor.formats = formats;
 
 /**
  * Check if given prefix is present
@@ -432,9 +426,3 @@ function maybeCall(value, ...args) {
     ? value(...args)
     : value;
 }
-
-/**
- * Expose `Editor`
- */
-
-module.exports = Editor;

@@ -14,8 +14,9 @@ $ npm i textarea-editor
 ## Usage
 
 ```js
+import TextareaEditor from 'textarea-editor';
 const textarea = document.querySelector('textarea');
-const editor = new TextareaEditor(editor);
+const editor = new TextareaEditor(textarea);
 
 editor.insert('Hello world!');
 editor.range([0, 5]);
@@ -29,16 +30,16 @@ assert(textarea.value == '_Hello_ world!');
 
 For an example with a UI, see the `example` folder.
 
-All default commands are exposed via `TextareaEditor.commands`, and can easily be modified to fit your application (e.g. adding a UI for browsing images).
+All default formats are exposed, and can easily be modified to fit your application (e.g. adding a UI for browsing images).
 
-You can also execute custom commands directly:
+You can also use custom formats directly:
 
 ```js
 editor.format({ prefix: '#{', suffix: '}' });
 assert(textarea.value == '#{Hello world!}');
 ```
 
-For example commands, check out the source code.
+For example formats, check out the source code.
 
 ## License
 
