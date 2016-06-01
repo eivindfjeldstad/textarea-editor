@@ -120,10 +120,34 @@ export default class TextareaEditor {
    */
 
   insert(text) {
+    let inserted = true;
     this.el.contentEditable = true;
     this.focus();
-    document.execCommand('insertText', false, text);
+
+    try {
+      document.execCommand('insertText', false, text);
+    } catch(e) {
+      inserted = false;
+    }
+
     this.el.contentEditable = false;
+
+    if (inserted) return this;
+
+    try {
+      document.execCommand('ms-beginUndoUnit');
+    } catch (e) {}
+
+    const {before, after} = this.selection();
+    this.el.value = before + text + after;
+
+    try {
+      document.execCommand('ms-endUndoUnit');
+    } catch (e) {}
+
+    const event = document.createEvent('Event');
+    event.initEvent('input', true, true);
+    this.el.dispatchEvent(event);
     return this;
   }
 
