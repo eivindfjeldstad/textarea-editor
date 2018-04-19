@@ -65,7 +65,7 @@ const formats = {
     multiline: true,
     prefix: {
       value: (line, index) => `${index + 1}. `,
-      pattern: '[0-9]+\. '
+      pattern: '[0-9]+\\. '
     }
   },
 
