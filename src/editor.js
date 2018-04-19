@@ -106,7 +106,14 @@ export default class TextareaEditor {
 
   range(range) {
     const el = this.el;
-    if (range == null) return [el.selectionStart, el.selectionEnd];
+
+    if (range == null) {
+      return [
+        el.selectionStart || 0,
+        el.selectionEnd || 0
+      ];
+    }
+
     this.focus();
     [el.selectionStart, el.selectionEnd] = range;
     return this;

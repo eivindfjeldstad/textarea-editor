@@ -1,4 +1,4 @@
-import TextareaEditor from '..';
+import TextareaEditor from '../src/editor';
 
 const textarea = document.querySelector('textarea');
 const toolbar = document.querySelector('.toolbar');
@@ -8,7 +8,7 @@ toolbar.addEventListener('mousedown', e => e.preventDefault());
 
 toolbar.addEventListener('click', e => {
   const command = e.target.getAttribute('data-command');
-  if (command) editor.exec('toggle', command);
+  if (command) editor.toggle(command);
 })
 
 textarea.addEventListener('keydown', (e) => {
