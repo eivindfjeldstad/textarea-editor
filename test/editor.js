@@ -101,6 +101,20 @@ describe('TextareaEditor', () => {
       expect(editor.range()).toEqual([8, 13]);
     })
 
+    describe('when given a string', () => {
+      test('should use built-in formats', () => {
+        textarea.value = 'Hello World!';
+        editor.range([6, 11]);
+        editor.format('bold');
+        expect(textarea.value).toBe('Hello **World**!');
+      })
+
+      test('should throw if format does not exist', () => {
+        const throws = () => editor.format('invalid');
+        expect(throws).toThrow('Invalid format invalid');
+      })
+    })
+
     describe('when given format has `block` set to true', () => {
       describe('when there is no text before or after the current selection', () => {
         test('should not insert newlines', () => {
@@ -232,14 +246,25 @@ describe('TextareaEditor', () => {
     })
 
     test('should use prefix and suffix pattern, if given', () => {
-      const text = '9Hello World!2';
+      const text = '99Hello World!22';
       textarea.value = text;
       editor.range([0, text.length]);
       editor.unformat({
-        prefix: { value: 'something dynamic', pattern: '[0-9]' },
-        suffix: { value: 'something dynamic', pattern: '[0-9]' }
+        prefix: { pattern: '[0-9]+' },
+        suffix: { pattern: '[0-9]+' }
       });
       expect(textarea.value).toBe('Hello World!');
+    })
+
+    test('should use prefix and suffix antipattern, if given', () => {
+      const text = '99Hello World!22';
+      textarea.value = text;
+      editor.range([0, text.length]);
+      editor.unformat({
+        prefix: { pattern: '[0-9]+', antipattern: '[0-9]{2}' },
+        suffix: { pattern: '[0-9]+', antipattern: '[0-9]{2}' }
+      });
+      expect(textarea.value).toBe(text);
     })
 
     test('should work with multiline commands', () => {
@@ -249,6 +274,20 @@ describe('TextareaEditor', () => {
       editor.unformat({ multiline: true, prefix: '**', suffix: '**' });
       expect(textarea.value).toBe('Hello\nWorld!');
       expect(editor.range()).toEqual([0, 12])
+    })
+
+    describe('when given a string', () => {
+      test('should use built-in formats', () => {
+        textarea.value = 'Hello **World!**';
+        editor.range([6, 16]);
+        editor.unformat('bold');
+        expect(textarea.value).toBe('Hello World!');
+      })
+
+      test('should throw if format does not exist', () => {
+        const throws = () => editor.unformat('invalid');
+        expect(throws).toThrow('Invalid format invalid');
+      })
     })
   })
 
@@ -283,6 +322,49 @@ describe('TextareaEditor', () => {
       editor.range([0, text.length]);
       const result = editor.hasFormat({ prefix: '**', suffix: '**', multiline: true });
       expect(result).toBe(true)
+    })
+
+    test('should respect prefix and suffix antipattern', () => {
+      const text = '99Hello World!22';
+      textarea.value = text;
+      editor.range([0, text.length]);
+      const result = editor.hasFormat({
+        prefix: { value: '9', antipattern: '[0-9]{2}' },
+        suffix: { value: '2', antipattern: '[0-9]{2}' }
+      });
+      expect(result).toBe(false);
+    })
+
+    describe('when given a string', () => {
+      test('should use built-in formats', () => {
+        textarea.value = 'Hello **World!**';
+        editor.range([6, 16]);
+        const result = editor.hasFormat('bold');
+        expect(result).toBe(true);
+      })
+
+      test('should throw if format does not exist', () => {
+        const throws = () => editor.hasFormat('invalid');
+        expect(throws).toThrow('Invalid format invalid');
+      })
+    })
+  })
+
+  describe('#toggle', () => {
+    test('should format if format is not present', () => {
+      const text = 'Hello World!';
+      textarea.value = text;
+      editor.range([0, text.length]);
+      editor.toggle({ prefix: '**', suffix: '**' });
+      expect(textarea.value).toBe('**Hello World!**');
+    })
+
+    test('should unformat if format is present', () => {
+      const text = '**Hello World!**';
+      textarea.value = text;
+      editor.range([0, text.length]);
+      editor.toggle({ prefix: '**', suffix: '**' });
+      expect(textarea.value).toBe('Hello World!');
     })
   })
 })
