@@ -2,7 +2,7 @@
  * Default formats
  */
 
-export const formats = {
+const formats = {
   // bold text
   bold: {
     prefix: '**',
@@ -83,3 +83,5 @@ export const formats = {
     prefix: '> '
   }
 };
+
+export default formats;
