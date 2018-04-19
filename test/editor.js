@@ -53,18 +53,15 @@ describe('TextareaEditor', () => {
   })
 
   describe('#selection()', () => {
-    test(
-      'should return the text before, inside and after the current selection',
-      () => {
-        textarea.value = 'Hello World!';
-        editor.range([6, 11]);
-        expect(editor.selection()).toEqual({
-          before: 'Hello ',
-          content: 'World',
-          after: '!'
-        });
-      }
-    )
+    test('should return the text before, inside and after the current selection', () => {
+      textarea.value = 'Hello World!';
+      editor.range([6, 11]);
+      expect(editor.selection()).toEqual({
+        before: 'Hello ',
+        content: 'World',
+        after: '!'
+      });
+    })
   })
 
   describe('#format()', () => {
@@ -272,16 +269,13 @@ describe('TextareaEditor', () => {
       expect(result).toBe(false)
     })
 
-    test(
-      'should work when prefix and suffix is just outside current selection',
-      () => {
-        const text = '**Hello World!**';
-        textarea.value = text;
-        editor.range([2, text.length - 2]);
-        const result = editor.hasFormat({ prefix: '**', suffix: '**' });
-        expect(result).toBe(true)
-      }
-    )
+    test('should work when prefix and suffix is just outside current selection', () => {
+      const text = '**Hello World!**';
+      textarea.value = text;
+      editor.range([2, text.length - 2]);
+      const result = editor.hasFormat({ prefix: '**', suffix: '**' });
+      expect(result).toBe(true)
+    })
 
     test('should work with multiline commands', () => {
       const text = '**Hello**\n**World!**';
