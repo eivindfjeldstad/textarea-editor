@@ -194,6 +194,8 @@ export default class TextareaEditor {
    */
 
   unformat(name) {
+    if (!this.hasFormat(name)) return this;
+
     const format = this.getFormat(name);
     const {prefix, suffix, multiline} = format;
     const {before, content, after} = this.selection();
