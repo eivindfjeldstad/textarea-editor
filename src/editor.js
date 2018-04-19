@@ -120,27 +120,6 @@ export default class TextareaEditor {
   }
 
   /**
-   * Execute command with format
-   *
-   * @param {String} command
-   * @param {String} name - name of format
-   * @return {TextareaEditor}
-   */
-
-  exec(command, name) {
-    switch (command) {
-      case 'format':
-        return this.format(name);
-      case 'unformat':
-        return this.unformat(name);
-      case 'toggle':
-        return this.toggle(name);
-      default:
-        throw new Error(`Invalid command ${command}`);
-    }
-  }
-
-  /**
    * Toggle `format` on current selection
    *
    * @param {Object} format
