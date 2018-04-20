@@ -44,7 +44,7 @@ const Formats = {
       antipattern: '\\!\\['
     },
     suffix: {
-      value: (text, i, url) => `](${url})`,
+      value: (text, n, url) => `](${url})`,
       pattern: '\\]\\(.*?\\)'
     }
   },
@@ -60,7 +60,7 @@ const Formats = {
   image: {
     prefix: '![',
     suffix: {
-      value: (text, i, url) => `](${url})`,
+      value: (text, n, url) => `](${url})`,
       pattern: '\\]\\(.*?\\)'
     }
   },
@@ -139,7 +139,7 @@ const Formats = {
     block: true,
     multiline: true,
     prefix: {
-      value: (line, index) => `${index + 1}. `,
+      value: (line, n) => `${n}. `,
       pattern: '[0-9]+\\. '
     }
   },

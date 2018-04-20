@@ -79,10 +79,10 @@ describe('TextareaEditor', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.format({
-        prefix: { value: (v, i) => i },
-        suffix: { value: (v, i) => i }
+        prefix: { value: (v, n) => n },
+        suffix: { value: (v, n) => n }
       });
-      expect(textarea.value).toBe('Hello 0World0!');
+      expect(textarea.value).toBe('Hello 1World1!');
     })
 
     test('should pass aditional arguments to prefix/suffix functions', () => {
@@ -207,10 +207,10 @@ describe('TextareaEditor', () => {
         editor.range([0, text.length]);
         editor.format({
           multiline: true,
-          prefix: { value: function (v, i) { return i + '_' }},
-          suffix: { value: function (v, i) { return '_' + i }}
+          prefix: { value: (v, n) => `${n}_` },
+          suffix: { value: (v, n) => `_${n}`}
         });
-        expect(textarea.value).toBe('0_Hello_0\n1_World!_1');
+        expect(textarea.value).toBe('1_Hello_1\n2_World!_2');
       })
 
       test('should preserve selected text', () => {
@@ -373,8 +373,8 @@ describe('TextareaEditor', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.toggle({
-        prefix: { value: (v, i, a, b) => a + b },
-        suffix: { value: (v, i, a, b) => a + b }
+        prefix: { value: (v, n, a, b) => a + b },
+        suffix: { value: (v, n, a, b) => a + b }
       }, '=', '?');
       expect(textarea.value).toBe('Hello =?World=?!');
     })

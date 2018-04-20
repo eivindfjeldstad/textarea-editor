@@ -150,9 +150,9 @@ export default class TextareaEditor {
     let [start, end] = this.range();
 
     // format lines
-    lines = lines.map((line, index) => {
-      const pval = maybeCall(prefix.value, line, index, ...args);
-      const sval = maybeCall(suffix.value, line, index, ...args);
+    lines = lines.map((line, i) => {
+      const pval = maybeCall(prefix.value, line, i + 1, ...args);
+      const sval = maybeCall(suffix.value, line, i + 1, ...args);
 
       if (!multiline || !content.length) {
         start += pval.length;
