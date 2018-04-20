@@ -1,104 +1,19 @@
-import {default as escape} from 'escape-string-regexp';
+import escape from 'escape-string-regexp';
+import Formats from './formats';
 
 /**
- * Formats
+ * TextareaEditor class.
+ *
+ * @param {HTMLElement} el - the textarea element to wrap around
  */
 
-export const formats = {
-  // bold text
-  bold: {
-    prefix: '**',
-    suffix: '**'
-  },
-
-  // italic text
-  italic: {
-    prefix: '_',
-    suffix: '_'
-  },
-
-  // insert link
-  link: {
-    prefix: {
-      value: '[',
-      pattern: '\\[',
-      antipattern: '\\!\\['
-    },
-    suffix: {
-      value: text => `](${prompt('URL:')})`,
-      pattern: '\\]\\(.*?\\)'
-    }
-  },
-
-  // insert image
-  image: {
-    prefix: '![',
-    suffix: {
-      value: text => `](${prompt('URL:')})`,
-      pattern: '\\]\\(.*?\\)'
-    }
-  },
-
-  // insert image
-  code: {
-    block: true,
-    prefix: '```\n',
-    suffix: '\n```'
-  },
-
-  // insert h1
-  header1: {
-    prefix: '# '
-  },
-
-  // insert h2
-  header2: {
-    prefix: '## '
-  },
-
-  // insert h3
-  header3: {
-    prefix: '### '
-  },
-
-  // insert ordered list
-  orderedList: {
-    block: true,
-    multiline: true,
-    prefix: {
-      value: (line, index) => `${index + 1}. `,
-      pattern: '[0-9]+\. '
-    }
-  },
-
-  // insert unordered list
-  unorderedList: {
-    block: true,
-    multiline: true,
-    prefix: '- '
-  },
-
-  // insert blockquote
-  blockquote: {
-    block: true,
-    multiline: true,
-    prefix: '> '
-  }
-};
-
 export default class TextareaEditor {
-  /**
-   * Constructor
-   *
-   * @param {Element} el
-   */
-
   constructor(el) {
     this.el = el;
   }
 
   /**
-   * Set or get range
+   * Set or get selection range.
    *
    * @param {Array} [range]
    * @return {Array|TextareaEditor}
@@ -106,16 +21,23 @@ export default class TextareaEditor {
 
   range(range) {
     const el = this.el;
-    if (range == null) return [el.selectionStart, el.selectionEnd];
+
+    if (range == null) {
+      return [
+        el.selectionStart || 0,
+        el.selectionEnd || 0
+      ];
+    }
+
     this.focus();
     [el.selectionStart, el.selectionEnd] = range;
     return this;
   }
 
   /**
-   * Insert text at cursor
+   * Insert given text at the current cursor position.
    *
-   * @param {String} text
+   * @param {String} text - text to insert
    * @return {TextareaEditor}
    */
 
@@ -152,7 +74,7 @@ export default class TextareaEditor {
   }
 
   /**
-   * Set foucs on the TextareaEditor's element
+   * Set foucs on the TextareaEditor's element.
    *
    * @return {TextareaEditor}
    */
@@ -163,9 +85,10 @@ export default class TextareaEditor {
   }
 
   /**
-   * Get selected text
+   * Get selected text.
    *
    * @return {Object}
+   * @private
    */
 
   selection() {
@@ -179,10 +102,11 @@ export default class TextareaEditor {
   }
 
   /**
-   * Get format by name
+   * Get format by name.
    *
    * @param {String|Object} format
    * @return {Object}
+   * @private
    */
 
   getFormat(format) {
@@ -190,55 +114,35 @@ export default class TextareaEditor {
       return normalizeFormat(format);
     }
 
-    if (!formats.hasOwnProperty(format)) {
+    if (!Formats.hasOwnProperty(format)) {
       throw new Error(`Invalid format ${format}`);
     }
 
-    return normalizeFormat(formats[format]);
+    return normalizeFormat(Formats[format]);
   }
 
   /**
-   * Execute command with format
+   * Toggle given `format` on current selection.
+   * Any additional arguments are passed on to `.format()`.
    *
-   * @param {String} command
-   * @param {String} name - name of format
+   * @param {String|Object} format - name of format or an object
    * @return {TextareaEditor}
    */
 
-  exec(command, name) {
-    switch (command) {
-      case 'format':
-        return this.format(name);
-      case 'unformat':
-        return this.unformat(name);
-      case 'toggle':
-        return this.toggle(name);
-      default:
-        throw new Error(`Invalid command ${command}`);
-    }
-  }
-
-  /**
-   * Toggle `format` on current selection
-   *
-   * @param {Object} format
-   * @return {TextareaEditor}
-   */
-
-  toggle(format) {
+  toggle(format, ...args) {
     if (this.hasFormat(format)) return this.unformat(format);
-    return this.format(format);
+    return this.format(format, ...args);
   }
 
 
   /**
-   * Format current selcetion with `format`
+   * Format current selcetion with given `format`.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {TextareaEditor}
    */
 
-  format(name) {
+  format(name, ...args) {
     const format = this.getFormat(name);
     const {prefix, suffix, multiline} = format;
     let {before, content, after} = this.selection();
@@ -246,9 +150,9 @@ export default class TextareaEditor {
     let [start, end] = this.range();
 
     // format lines
-    lines = lines.map((line, index) => {
-      const pval = maybeCall(prefix.value, line, index);
-      const sval = maybeCall(suffix.value, line, index);
+    lines = lines.map((line, i) => {
+      const pval = maybeCall(prefix.value, line, i + 1, ...args);
+      const sval = maybeCall(suffix.value, line, i + 1, ...args);
 
       if (!multiline || !content.length) {
         start += pval.length;
@@ -286,13 +190,15 @@ export default class TextareaEditor {
   }
 
   /**
-   * Remove given formatting from current selection
+   * Remove given `format` from current selection.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {TextareaEditor}
    */
 
   unformat(name) {
+    if (!this.hasFormat(name)) return this;
+
     const format = this.getFormat(name);
     const {prefix, suffix, multiline} = format;
     const {before, content, after} = this.selection();
@@ -324,9 +230,9 @@ export default class TextareaEditor {
   }
 
   /**
-   * Check if current seletion has given format
+   * Check if current seletion has given format.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {Boolean}
    */
 
@@ -351,8 +257,12 @@ export default class TextareaEditor {
   }
 }
 
+// Expose formats
+export {Formats};
+
 /**
- * Check if given prefix is present
+ * Check if given prefix is present.
+ * @private
  */
 
 function hasPrefix(text, prefix) {
@@ -368,7 +278,8 @@ function hasPrefix(text, prefix) {
 }
 
 /**
- * Check if given suffix is present
+ * Check if given suffix is present.
+ * @private
  */
 
 function hasSuffix(text, suffix) {
@@ -384,7 +295,8 @@ function hasSuffix(text, suffix) {
 }
 
 /**
- * Get length of match
+ * Get length of match.
+ * @private
  */
 
 function matchLength (text, exp) {
@@ -393,7 +305,8 @@ function matchLength (text, exp) {
 }
 
 /**
- * Get prefix length
+ * Get prefix length.
+ * @private
  */
 
 function prefixLength (text, prefix) {
@@ -402,7 +315,8 @@ function prefixLength (text, prefix) {
 }
 
 /**
- * Check suffix length
+ * Get suffix length.
+ * @private
  */
 
 function suffixLength (text, suffix) {
@@ -411,7 +325,8 @@ function suffixLength (text, suffix) {
 }
 
 /**
- * Normalize newlines
+ * Normalize newlines.
+ * @private
  */
 
 function normalizeNewlines(str) {
@@ -419,7 +334,8 @@ function normalizeNewlines(str) {
 }
 
 /**
- * Normalize format
+ * Normalize format.
+ * @private
  */
 
 function normalizeFormat(format) {
@@ -430,7 +346,8 @@ function normalizeFormat(format) {
 }
 
 /**
- * Normalize prefixes and suffixes
+ * Normalize prefixes and suffixes.
+ * @private
  */
 
 function normalizePrefixSuffix(value = '') {
@@ -442,7 +359,8 @@ function normalizePrefixSuffix(value = '') {
 }
 
 /**
- * Call if function
+ * Call if function.
+ * @private
  */
 
 function maybeCall(value, ...args) {
