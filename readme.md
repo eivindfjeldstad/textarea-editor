@@ -2,8 +2,9 @@
 
 Simple markdown editor for textareas, without a UI. Inspired by Github's comment editor.
 
-[![npm version](http://img.shields.io/npm/v/textarea-editor.svg?style=flat)](https://npmjs.org/package/textarea-editor)
-[![Build Status](http://img.shields.io/travis/eivindfjeldstad/textarea-editor.svg?style=flat)](https://travis-ci.org/eivindfjeldstad/textarea-editor)
+[![npm version](http://img.shields.io/npm/v/textarea-editor.svg?style=flat-square)](https://npmjs.org/package/textarea-editor)
+[![Build Status](http://img.shields.io/travis/eivindfjeldstad/textarea-editor.svg?style=flat-square)](https://travis-ci.org/eivindfjeldstad/textarea-editor)
+[![Codecov](https://img.shields.io/codecov/c/github/eivindfjeldstad/validate.svg?style=flat-square)](https://codecov.io/gh/eivindfjeldstad/textarea-editor)
 
 ## Install
 
