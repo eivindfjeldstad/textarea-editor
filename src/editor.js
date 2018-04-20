@@ -1,4 +1,4 @@
-import {default as escape} from 'escape-string-regexp';
+import escape from 'escape-string-regexp';
 import Formats from './formats';
 
 /**
