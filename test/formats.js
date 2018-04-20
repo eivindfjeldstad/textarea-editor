@@ -62,7 +62,7 @@ describe('Formats', () => {
 
     test('should not unformat images', () => {
       textarea.value = '![Hello World](/example.png)';
-      editor.range([0, textarea.value.length]);
+      editor.range([2, 13]);
       editor.unformat('link');
       expect(textarea.value).toBe('![Hello World](/example.png)')
     })
