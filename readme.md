@@ -29,7 +29,7 @@ All default formats are exposed, and can easily be modified or extended.
 
 ### Custom formats
 
-A format should be an object with the the following properties:
+A format should be an object with the following properties:
 
 -   `block` - (Optional) A boolean indicating whether or not this is a block, and should be newline separated from the rest of the text (e.g. code block).
 -   `multiline` - (Optional) A boolean indicating whether or not this is a multiline format (e.g. ordered list).
