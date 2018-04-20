@@ -1,7 +1,5 @@
 # textarea-editor
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/eivindfjeldstad/textarea-editor.svg)](https://greenkeeper.io/)
-
 Simple markdown editor for textareas, without a UI. Inspired by Github's comment editor.
 
 [![npm version](http://img.shields.io/npm/v/textarea-editor.svg?style=flat-square)](https://npmjs.org/package/textarea-editor)
