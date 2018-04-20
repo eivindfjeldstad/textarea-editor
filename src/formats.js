@@ -23,7 +23,7 @@ const formats = {
       antipattern: '\\!\\['
     },
     suffix: {
-      value: text => `](${prompt('URL:')})`,
+      value: (text, i, url) => `](${url})`,
       pattern: '\\]\\(.*?\\)'
     }
   },
@@ -32,7 +32,7 @@ const formats = {
   image: {
     prefix: '![',
     suffix: {
-      value: text => `](${prompt('URL:')})`,
+      value: (text, i, url) => `](${url})`,
       pattern: '\\]\\(.*?\\)'
     }
   },

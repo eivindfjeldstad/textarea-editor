@@ -126,9 +126,9 @@ export default class TextareaEditor {
    * @return {TextareaEditor}
    */
 
-  toggle(format) {
+  toggle(format, ...args) {
     if (this.hasFormat(format)) return this.unformat(format);
-    return this.format(format);
+    return this.format(format, ...args);
   }
 
 
@@ -139,7 +139,7 @@ export default class TextareaEditor {
    * @return {TextareaEditor}
    */
 
-  format(name) {
+  format(name, ...args) {
     const format = this.getFormat(name);
     const {prefix, suffix, multiline} = format;
     let {before, content, after} = this.selection();
@@ -148,8 +148,8 @@ export default class TextareaEditor {
 
     // format lines
     lines = lines.map((line, index) => {
-      const pval = maybeCall(prefix.value, line, index);
-      const sval = maybeCall(suffix.value, line, index);
+      const pval = maybeCall(prefix.value, line, index, ...args);
+      const sval = maybeCall(suffix.value, line, index, ...args);
 
       if (!multiline || !content.length) {
         start += pval.length;

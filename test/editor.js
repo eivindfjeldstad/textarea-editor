@@ -79,10 +79,20 @@ describe('TextareaEditor', () => {
       textarea.value = 'Hello World!';
       editor.range([6, 11]);
       editor.format({
-        prefix: { value: function (v, i) { return i + v }},
-        suffix: { value: function (v, i) { return i }}
+        prefix: { value: (v, i) => i },
+        suffix: { value: (v, i) => i }
       });
-      expect(textarea.value).toBe('Hello 0WorldWorld0!');
+      expect(textarea.value).toBe('Hello 0World0!');
+    })
+
+    test('should pass aditional arguments to prefix/suffix functions', () => {
+      textarea.value = 'Hello World!';
+      editor.range([6, 11]);
+      editor.format({
+        prefix: { value: (v, i, a, b) => a + b },
+        suffix: { value: (v, i, a, b) => a + b }
+      }, '=', '?');
+      expect(textarea.value).toBe('Hello =?World=?!');
     })
 
     test('should accept shorthand prefix and suffix', () => {
@@ -357,6 +367,16 @@ describe('TextareaEditor', () => {
       editor.range([0, text.length]);
       editor.toggle({ prefix: '**', suffix: '**' });
       expect(textarea.value).toBe('**Hello World!**');
+    })
+
+    test('should pass aditional arguments to prefix/suffix functions', () => {
+      textarea.value = 'Hello World!';
+      editor.range([6, 11]);
+      editor.toggle({
+        prefix: { value: (v, i, a, b) => a + b },
+        suffix: { value: (v, i, a, b) => a + b }
+      }, '=', '?');
+      expect(textarea.value).toBe('Hello =?World=?!');
     })
 
     test('should unformat if format is present', () => {
