@@ -30,14 +30,14 @@ All default formats are exposed, and can easily be modified or extended.
 ### Custom formats
 
 A format should be an object with the the following properties:
-- `block` - (Optional) A boolean indicating whether or not this is a block, and should be newline separated from the rest of the text (e.g code block).
+- `block` - (Optional) A boolean indicating whether or not this is a block, and should be newline separated from the rest of the text (e.g. code block).
 - `multiline` - (Optional) A boolean indicating whether or not this is a multiline format (e.g. ordered list).
 - `prefix`
   - `value` - A string or a function that generates a value (useful for prefixes that change based on line number, such as ordered lists). The function gets called for each line in the current selection (unless `.multiline` is `false`, in which case the entire selected text is passed), and is given the line, the line number, and any additional arguments passed to `.format()`.
   - `pattern` - A string containing a pattern that identifies the prefix when used in a regular expression (double escape special chars).
   - `antipattern` - (Optional) A string containing a pattern that identifies prefixes that would be found by `.pattern`, but should be ignored because they are part of other prefixes (e.g `## ` would match parts of `### `). This is a very ugly hack, should find a better way to solve this in the future.
 - `suffix`
- - Same properties as `.prefix`, but gets inserted after the current selection.
+  - Same properties as `.prefix`, but gets inserted after the current selection.
 
 #### Example
 
