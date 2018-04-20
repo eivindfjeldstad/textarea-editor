@@ -8,7 +8,15 @@ toolbar.addEventListener('mousedown', e => e.preventDefault());
 
 toolbar.addEventListener('click', e => {
   const command = e.target.getAttribute('data-command');
-  if (command) editor.toggle(command);
+  if (!command) return;
+
+  let url;
+
+  if (/image|url/.test(command)) {
+    url = prompt('URL:');
+  }
+
+  editor.toggle(command, url);
 })
 
 textarea.addEventListener('keydown', (e) => {
