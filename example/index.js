@@ -12,7 +12,7 @@ toolbar.addEventListener('click', e => {
 
   let url;
 
-  if (/image|url/.test(command)) {
+  if (/image|link/.test(command)) {
     url = prompt('URL:');
   }
 
