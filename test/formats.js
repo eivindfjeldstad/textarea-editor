@@ -98,6 +98,13 @@ describe('Formats', () => {
       editor.unformat('header1');
       expect(textarea.value).toBe('Hello World')
     })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '### Hello World';
+      editor.range([4, textarea.value.length]);
+      editor.unformat('header1');
+      expect(textarea.value).toBe('### Hello World')
+    })
   })
 
   describe('header2', () => {
@@ -114,6 +121,13 @@ describe('Formats', () => {
       editor.unformat('header2');
       expect(textarea.value).toBe('Hello World')
     })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '### Hello World';
+      editor.range([4, textarea.value.length]);
+      editor.unformat('header2');
+      expect(textarea.value).toBe('### Hello World')
+    })
   })
 
   describe('header3', () => {
@@ -129,6 +143,13 @@ describe('Formats', () => {
       editor.range([0, textarea.value.length]);
       editor.unformat('header3');
       expect(textarea.value).toBe('Hello World')
+    })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '#### Hello World';
+      editor.range([5, textarea.value.length]);
+      editor.unformat('header3');
+      expect(textarea.value).toBe('#### Hello World')
     })
   })
 

@@ -74,7 +74,11 @@ const Formats = {
    */
 
   header1: {
-    prefix: '# '
+    prefix: {
+      value: '# ',
+      pattern: '# ',
+      antipattern: '[#]{2,} '
+    }
   },
 
   /**
@@ -86,7 +90,11 @@ const Formats = {
    */
 
   header2: {
-    prefix: '## '
+    prefix: {
+      value: '## ',
+      pattern: '## ',
+      antipattern: '[#]{3,} '
+    }
   },
 
   /**
@@ -98,7 +106,11 @@ const Formats = {
    */
 
   header3: {
-    prefix: '### '
+    prefix: {
+      value: '### ',
+      pattern: '### ',
+      antipattern: '[#]{4,} '
+    }
   },
 
   /**
