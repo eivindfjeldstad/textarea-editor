@@ -232,7 +232,7 @@ Insert code block.
 
 ````javascript
 editor.format('code');
-assert(textarea.value == '```\nHello "orld\n```\n\n')
+assert(textarea.value == '```\nHello World\n```\n\n')
 ````
 
 #### orderedList
