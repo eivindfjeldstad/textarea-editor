@@ -6,10 +6,6 @@ Simple markdown editor for textareas, without a UI. Inspired by Github's comment
 [![Build Status](http://img.shields.io/travis/eivindfjeldstad/textarea-editor.svg?style=flat-square)](https://travis-ci.org/eivindfjeldstad/textarea-editor)
 [![Codecov](https://img.shields.io/codecov/c/github/eivindfjeldstad/validate.svg?style=flat-square)](https://codecov.io/gh/eivindfjeldstad/textarea-editor)
 
-## Install
-
-    $ npm i textarea-editor
-
 ## Usage
 
 ```js
@@ -29,16 +25,47 @@ assert(textarea.value == '_Hello_ world!');
 
 For an example with a UI, see the `example` folder or run `yarn start`.
 
-All default formats are exposed, and can easily be modified to fit your application (e.g. adding a UI for browsing images).
+All default formats are exposed, and can easily be modified or extended.
 
-You can also use custom formats directly:
+### Custom formats
+
+A format should be an object with the the following properties:
+- `block` - (Optional) A boolean indicating wether or not this is a block, and should be newline separated from the rest of the text (e.g code block).
+- `multiline` - (Optional) A boolean indicating wether or not this is a multiline format (e.g. ordered list).
+- `prefix`
+  - `value` - A string or a function that generates a value (useful for prefixes that change based on line number, such as ordered lists). The function gets called for each line in the current selection (unless `.multiline` is `false`, in which case the entire selected text is passed), and is given the line, the line number, and any additional arguments passed to `.format()`.
+  - `pattern` - A string containing a pattern that identifies the prefix when used in a regular expression (double escape special chars).
+  - `antipattern` - (Optional) A string containing a pattern that identifies prefixes that would be found by `.pattern`, but should be ignored because they are part of other prefixes (e.g `## ` would match parts of `### `). This is a very ugly hack, should find a better way to solve this in the future.
+- `suffix`
+ - Same properties as `.prefix`, but gets inserted after the current selection.
+
+#### Example
 
 ```js
-editor.format({ prefix: '#{', suffix: '}' });
-assert(textarea.value == '#{Hello world!}');
+textarea.value = 'Hello\nWorld';
+
+const orderedList = {
+  block: true,
+  multiline: true,
+  prefix: {
+    value: (line, no) => `${no}. `,
+    pattern: '[0-9]+\\. '
+  }
+};
+
+editor.range([0, textarea.value.length])
+editor.format(orderedList);
+assert(textarea.value == '1. Hello\n2. World');
 ```
 
-For example formats, check out the source code.
+Simple formats can be defined by giving `.prefix` and `.suffix` a string value.
+
+```js
+textarea.value = 'Hello World';
+editor.range([0, textarea.value.length]);
+editor.format({ prefix: '#{', suffix: '}' });
+assert(textarea.value == '#{Hello World}');
+```
 
 ## API
 
