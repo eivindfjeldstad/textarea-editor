@@ -1,21 +1,42 @@
 /**
- * Default formats
+ * Default formats.
  */
 
-const formats = {
-  // bold text
+const Formats = {
+  /**
+   * Bold text.
+   *
+   * @example
+   * editor.format('bold');
+   * assert(textarea.value == '**Hello World**')
+   */
+
   bold: {
     prefix: '**',
     suffix: '**'
   },
 
-  // italic text
+  /**
+   * Italic text.
+   *
+   * @example
+   * editor.format('italic');
+   * assert(textarea.value == '_Hello World_')
+   */
+
   italic: {
     prefix: '_',
     suffix: '_'
   },
 
-  // insert link
+  /**
+   * Insert link.
+   *
+   * @example
+   * editor.format('link', '/example');
+   * assert(textarea.value == '[Hello World](/example)')
+   */
+
   link: {
     prefix: {
       value: '[',
@@ -28,7 +49,14 @@ const formats = {
     }
   },
 
-  // insert image
+  /**
+   * Insert image.
+   *
+   * @example
+   * editor.format('image', '/example.png');
+   * assert(textarea.value == '![Hello World](/example.png)')
+   */
+
   image: {
     prefix: '![',
     suffix: {
@@ -37,29 +65,64 @@ const formats = {
     }
   },
 
-  // insert image
+  /**
+   * Header 1.
+   *
+   * @example
+   * editor.format('header1');
+   * assert(textarea.value == '# Hello World')
+   */
+
+  header1: {
+    prefix: '# '
+  },
+
+  /**
+   * Header 2.
+   *
+   * @example
+   * editor.format('header2');
+   * assert(textarea.value == '## Hello World')
+   */
+
+  header2: {
+    prefix: '## '
+  },
+
+  /**
+   * Header 3.
+   *
+   * @example
+   * editor.format('header3');
+   * assert(textarea.value == '### Hello World')
+   */
+
+  header3: {
+    prefix: '### '
+  },
+
+  /**
+   * Insert code block.
+   *
+   * @example
+   * editor.format('code');
+   * assert(textarea.value == '```\nHello "orld\n```\n\n')
+   */
+
   code: {
     block: true,
     prefix: '```\n',
     suffix: '\n```'
   },
 
-  // insert h1
-  header1: {
-    prefix: '# '
-  },
+  /**
+   * Ordered list.
+   *
+   * @example
+   * editor.format('orderedList');
+   * assert(textarea.value == '1. Hello World\n\n')
+   */
 
-  // insert h2
-  header2: {
-    prefix: '## '
-  },
-
-  // insert h3
-  header3: {
-    prefix: '### '
-  },
-
-  // insert ordered list
   orderedList: {
     block: true,
     multiline: true,
@@ -69,14 +132,28 @@ const formats = {
     }
   },
 
-  // insert unordered list
+  /**
+   * Unordered list.
+   *
+   * @example
+   * editor.format('unorderedList');
+   * assert(textarea.value == '- Hello World\n\n')
+   */
+
   unorderedList: {
     block: true,
     multiline: true,
     prefix: '- '
   },
 
-  // insert blockquote
+  /**
+   * Blockquote.
+   *
+   * @example
+   * editor.format('blockquote');
+   * assert(textarea.value == '> Hello World\n\n')
+   */
+
   blockquote: {
     block: true,
     multiline: true,
@@ -84,4 +161,4 @@ const formats = {
   }
 };
 
-export default formats;
+export default Formats;

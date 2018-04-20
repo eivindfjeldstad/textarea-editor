@@ -1,19 +1,19 @@
 import {default as escape} from 'escape-string-regexp';
-import formats from './formats';
+import Formats from './formats';
+
+/**
+ * TextareaEditor class.
+ *
+ * @param {HTMLElement} el - the textarea element to wrap around
+ */
 
 export default class TextareaEditor {
-  /**
-   * Constructor
-   *
-   * @param {Element} el
-   */
-
   constructor(el) {
     this.el = el;
   }
 
   /**
-   * Set or get range
+   * Set or get selection range.
    *
    * @param {Array} [range]
    * @return {Array|TextareaEditor}
@@ -35,9 +35,9 @@ export default class TextareaEditor {
   }
 
   /**
-   * Insert text at cursor
+   * Insert given text at the current cursor position.
    *
-   * @param {String} text
+   * @param {String} text - text to insert
    * @return {TextareaEditor}
    */
 
@@ -74,7 +74,7 @@ export default class TextareaEditor {
   }
 
   /**
-   * Set foucs on the TextareaEditor's element
+   * Set foucs on the TextareaEditor's element.
    *
    * @return {TextareaEditor}
    */
@@ -85,9 +85,10 @@ export default class TextareaEditor {
   }
 
   /**
-   * Get selected text
+   * Get selected text.
    *
    * @return {Object}
+   * @private
    */
 
   selection() {
@@ -101,10 +102,11 @@ export default class TextareaEditor {
   }
 
   /**
-   * Get format by name
+   * Get format by name.
    *
    * @param {String|Object} format
    * @return {Object}
+   * @private
    */
 
   getFormat(format) {
@@ -112,17 +114,18 @@ export default class TextareaEditor {
       return normalizeFormat(format);
     }
 
-    if (!formats.hasOwnProperty(format)) {
+    if (!Formats.hasOwnProperty(format)) {
       throw new Error(`Invalid format ${format}`);
     }
 
-    return normalizeFormat(formats[format]);
+    return normalizeFormat(Formats[format]);
   }
 
   /**
-   * Toggle `format` on current selection
+   * Toggle given `format` on current selection.
+   * Any additional arguments are passed on to `.format()`.
    *
-   * @param {Object} format
+   * @param {String|Object} format - name of format or an object
    * @return {TextareaEditor}
    */
 
@@ -133,9 +136,9 @@ export default class TextareaEditor {
 
 
   /**
-   * Format current selcetion with `format`
+   * Format current selcetion with given `format`.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {TextareaEditor}
    */
 
@@ -187,9 +190,9 @@ export default class TextareaEditor {
   }
 
   /**
-   * Remove given formatting from current selection
+   * Remove given `format` from current selection.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {TextareaEditor}
    */
 
@@ -227,9 +230,9 @@ export default class TextareaEditor {
   }
 
   /**
-   * Check if current seletion has given format
+   * Check if current seletion has given format.
    *
-   * @param {String} name - name of format
+   * @param {String|Object} name - name of format or an object
    * @return {Boolean}
    */
 
@@ -254,8 +257,12 @@ export default class TextareaEditor {
   }
 }
 
+// Expose formats
+export {Formats};
+
 /**
- * Check if given prefix is present
+ * Check if given prefix is present.
+ * @private
  */
 
 function hasPrefix(text, prefix) {
@@ -271,7 +278,8 @@ function hasPrefix(text, prefix) {
 }
 
 /**
- * Check if given suffix is present
+ * Check if given suffix is present.
+ * @private
  */
 
 function hasSuffix(text, suffix) {
@@ -287,7 +295,8 @@ function hasSuffix(text, suffix) {
 }
 
 /**
- * Get length of match
+ * Get length of match.
+ * @private
  */
 
 function matchLength (text, exp) {
@@ -296,7 +305,8 @@ function matchLength (text, exp) {
 }
 
 /**
- * Get prefix length
+ * Get prefix length.
+ * @private
  */
 
 function prefixLength (text, prefix) {
@@ -305,7 +315,8 @@ function prefixLength (text, prefix) {
 }
 
 /**
- * Check suffix length
+ * Get suffix length.
+ * @private
  */
 
 function suffixLength (text, suffix) {
@@ -314,7 +325,8 @@ function suffixLength (text, suffix) {
 }
 
 /**
- * Normalize newlines
+ * Normalize newlines.
+ * @private
  */
 
 function normalizeNewlines(str) {
@@ -322,7 +334,8 @@ function normalizeNewlines(str) {
 }
 
 /**
- * Normalize format
+ * Normalize format.
+ * @private
  */
 
 function normalizeFormat(format) {
@@ -333,7 +346,8 @@ function normalizeFormat(format) {
 }
 
 /**
- * Normalize prefixes and suffixes
+ * Normalize prefixes and suffixes.
+ * @private
  */
 
 function normalizePrefixSuffix(value = '') {
@@ -345,7 +359,8 @@ function normalizePrefixSuffix(value = '') {
 }
 
 /**
- * Call if function
+ * Call if function.
+ * @private
  */
 
 function maybeCall(value, ...args) {

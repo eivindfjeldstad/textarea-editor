@@ -8,6 +8,7 @@
     "start": "parcel example/index.html -p 3000 -d example/build --open --no-cache",
     "test": "jest",
     "test-cov": "jest --coverage --runInBand --forceExit",
+    "docs": "documentation readme ./src/*.js --section=API",
     "prepublish": "yarn run build"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "documentation": "^6.2.0",
     "jest": "^22.4.3",
     "parcel-bundler": "^1.7.1"
   },
