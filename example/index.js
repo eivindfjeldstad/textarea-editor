@@ -12,7 +12,7 @@ toolbar.addEventListener('click', e => {
 
   let url;
 
-  if (/image|link/.test(command)) {
+  if (/image|link/.test(command) && !editor.hasFormat(command)) {
     url = prompt('URL:');
   }
 
