@@ -45,7 +45,7 @@ const Formats = {
     },
     suffix: {
       value: (text, n, url) => `](${url})`,
-      pattern: '\\]\\(.*?\\)'
+      pattern: '\\]\\([^\(\)]*?\\)'
     }
   },
 
@@ -61,7 +61,7 @@ const Formats = {
     prefix: '![',
     suffix: {
       value: (text, n, url) => `](${url})`,
-      pattern: '\\]\\(.*?\\)'
+      pattern: '\\]\\([^\(\)]*?\\)'
     }
   },
 
