@@ -118,7 +118,7 @@ const Formats = {
    *
    * @example
    * editor.format('code');
-   * assert(textarea.value == '```\nHello World\n```\n\n')
+   * assert(textarea.value == '```\nHello World\n```')
    */
 
   code: {
@@ -132,7 +132,7 @@ const Formats = {
    *
    * @example
    * editor.format('orderedList');
-   * assert(textarea.value == '1. Hello World\n\n')
+   * assert(textarea.value == '1. Hello World')
    */
 
   orderedList: {
@@ -149,7 +149,7 @@ const Formats = {
    *
    * @example
    * editor.format('unorderedList');
-   * assert(textarea.value == '- Hello World\n\n')
+   * assert(textarea.value == '- Hello World')
    */
 
   unorderedList: {
@@ -163,7 +163,7 @@ const Formats = {
    *
    * @example
    * editor.format('blockquote');
-   * assert(textarea.value == '> Hello World\n\n')
+   * assert(textarea.value == '> Hello World')
    */
 
   blockquote: {
