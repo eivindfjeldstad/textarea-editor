@@ -220,6 +220,23 @@ const Formats = {
   },
 
   /**
+   * Task list.
+   *
+   * @example
+   * editor.format('taskList');
+   * assert(textarea.value == '- [] Hello World')
+   */
+
+  taskList: {
+    block: true,
+    multiline: true,
+    prefix: {
+      value: '- [] ',
+      pattern: '- \\[x?\\] '
+    }
+  },
+
+  /**
    * Blockquote.
    *
    * @example
