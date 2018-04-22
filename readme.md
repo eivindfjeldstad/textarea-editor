@@ -85,11 +85,15 @@ assert(textarea.value == '#{Hello World}');
 -   [Formats](#formats)
     -   [bold](#bold)
     -   [italic](#italic)
+    -   [strikethrough](#strikethrough)
     -   [link](#link)
     -   [image](#image)
     -   [header1](#header1)
     -   [header2](#header2)
     -   [header3](#header3)
+    -   [header4](#header4)
+    -   [header5](#header5)
+    -   [header6](#header6)
     -   [code](#code)
     -   [orderedList](#orderedlist)
     -   [unorderedList](#unorderedlist)
@@ -198,6 +202,17 @@ editor.format('italic');
 assert(textarea.value == '_Hello World_')
 ```
 
+#### strikethrough
+
+Strikethrough text.
+
+**Examples**
+
+```javascript
+editor.format('strikethrough');
+assert(textarea.value == '~~Hello World~~')
+```
+
 #### link
 
 Insert link.
@@ -251,6 +266,39 @@ Header 3.
 ```javascript
 editor.format('header3');
 assert(textarea.value == '### Hello World')
+```
+
+#### header4
+
+Header 4.
+
+**Examples**
+
+```javascript
+editor.format('header4');
+assert(textarea.value == '#### Hello World')
+```
+
+#### header5
+
+Header 5.
+
+**Examples**
+
+```javascript
+editor.format('header5');
+assert(textarea.value == '##### Hello World')
+```
+
+#### header6
+
+Header 6.
+
+**Examples**
+
+```javascript
+editor.format('header6');
+assert(textarea.value == '###### Hello World')
 ```
 
 #### code
