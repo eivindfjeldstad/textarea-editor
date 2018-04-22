@@ -153,6 +153,75 @@ describe('Formats', () => {
     })
   })
 
+  describe('header4', () => {
+    test('should format correctly', () => {
+      textarea.value = 'Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.format('header4');
+      expect(textarea.value).toBe('#### Hello World')
+    })
+
+    test('should unformat correctly', () => {
+      textarea.value = '#### Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.unformat('header4');
+      expect(textarea.value).toBe('Hello World')
+    })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '##### Hello World';
+      editor.range([6, textarea.value.length]);
+      editor.unformat('header4');
+      expect(textarea.value).toBe('##### Hello World')
+    })
+  })
+
+  describe('header5', () => {
+    test('should format correctly', () => {
+      textarea.value = 'Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.format('header5');
+      expect(textarea.value).toBe('##### Hello World')
+    })
+
+    test('should unformat correctly', () => {
+      textarea.value = '##### Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.unformat('header5');
+      expect(textarea.value).toBe('Hello World')
+    })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '###### Hello World';
+      editor.range([7, textarea.value.length]);
+      editor.unformat('header5');
+      expect(textarea.value).toBe('###### Hello World')
+    })
+  })
+
+  describe('header6', () => {
+    test('should format correctly', () => {
+      textarea.value = 'Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.format('header6');
+      expect(textarea.value).toBe('###### Hello World')
+    })
+
+    test('should unformat correctly', () => {
+      textarea.value = '###### Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.unformat('header6');
+      expect(textarea.value).toBe('Hello World')
+    })
+
+    test('should not unformat other headers', () => {
+      textarea.value = '####### Hello World';
+      editor.range([8, textarea.value.length]);
+      editor.unformat('header6');
+      expect(textarea.value).toBe('####### Hello World')
+    })
+  })
+
   describe('code', () => {
     test('should format correctly', () => {
       textarea.value = 'Hello World';

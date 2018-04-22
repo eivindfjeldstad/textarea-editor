@@ -114,6 +114,54 @@ const Formats = {
   },
 
   /**
+   * Header 4.
+   *
+   * @example
+   * editor.format('header4');
+   * assert(textarea.value == '#### Hello World')
+   */
+
+  header4: {
+    prefix: {
+      value: '#### ',
+      pattern: '#### ',
+      antipattern: '[#]{5,} '
+    }
+  },
+
+  /**
+   * Header 5.
+   *
+   * @example
+   * editor.format('header5');
+   * assert(textarea.value == '##### Hello World')
+   */
+
+  header5: {
+    prefix: {
+      value: '##### ',
+      pattern: '##### ',
+      antipattern: '[#]{6,} '
+    }
+  },
+
+  /**
+   * Header 6.
+   *
+   * @example
+   * editor.format('header6');
+   * assert(textarea.value == '###### Hello World')
+   */
+
+  header6: {
+    prefix: {
+      value: '###### ',
+      pattern: '###### ',
+      antipattern: '[#]{7,} '
+    }
+  },
+
+  /**
    * Insert code block.
    *
    * @example
