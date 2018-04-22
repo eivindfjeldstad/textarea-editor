@@ -224,15 +224,15 @@ const Formats = {
    *
    * @example
    * editor.format('taskList');
-   * assert(textarea.value == '- [] Hello World')
+   * assert(textarea.value == '- [ ] Hello World')
    */
 
   taskList: {
     block: true,
     multiline: true,
     prefix: {
-      value: '- [] ',
-      pattern: '- \\[x?\\] '
+      value: '- [ ] ',
+      pattern: '- \\[[x ]{1}\\] '
     }
   },
 

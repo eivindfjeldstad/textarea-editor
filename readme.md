@@ -343,7 +343,7 @@ Task list.
 
 ```javascript
 editor.format('taskList');
-assert(textarea.value == '- [] Hello World')
+assert(textarea.value == '- [ ] Hello World')
 ```
 
 #### blockquote

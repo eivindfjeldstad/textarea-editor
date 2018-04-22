@@ -291,18 +291,18 @@ describe('Formats', () => {
       textarea.value = 'Hello\nWorld';
       editor.range([0, textarea.value.length]);
       editor.format('taskList');
-      expect(textarea.value).toBe('- [] Hello\n- [] World')
+      expect(textarea.value).toBe('- [ ] Hello\n- [ ] World')
     })
 
     test('should unformat correctly', () => {
-      textarea.value = '- [] Hello\n- [] World';
+      textarea.value = '- [ ] Hello\n- [ ] World';
       editor.range([0, textarea.value.length]);
       editor.unformat('taskList');
       expect(textarea.value).toBe('Hello\nWorld')
     })
 
     test('should unformat correctly when tasks are checked off', () => {
-      textarea.value = '- [x] Hello\n- [] World';
+      textarea.value = '- [x] Hello\n- [ ] World';
       editor.range([0, textarea.value.length]);
       editor.unformat('taskList');
       expect(textarea.value).toBe('Hello\nWorld')
