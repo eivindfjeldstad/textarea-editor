@@ -97,6 +97,7 @@ assert(textarea.value == '#{Hello World}');
     -   [code](#code)
     -   [orderedList](#orderedlist)
     -   [unorderedList](#unorderedlist)
+    -   [taskList](#tasklist)
     -   [blockquote](#blockquote)
 
 ### TextareaEditor
@@ -332,6 +333,17 @@ Unordered list.
 ```javascript
 editor.format('unorderedList');
 assert(textarea.value == '- Hello World')
+```
+
+#### taskList
+
+Task list.
+
+**Examples**
+
+```javascript
+editor.format('taskList');
+assert(textarea.value == '- [] Hello World')
 ```
 
 #### blockquote
