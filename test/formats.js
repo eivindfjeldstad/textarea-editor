@@ -45,6 +45,22 @@ describe('Formats', () => {
     })
   })
 
+  describe('strikethrough', () => {
+    test('should format correctly', () => {
+      textarea.value = 'Hello World';
+      editor.range([0, textarea.value.length]);
+      editor.format('strikethrough');
+      expect(textarea.value).toBe('~~Hello World~~')
+    })
+
+    test('should unformat correctly', () => {
+      textarea.value = '~~Hello World~~';
+      editor.range([0, textarea.value.length]);
+      editor.unformat('strikethrough');
+      expect(textarea.value).toBe('Hello World')
+    })
+  })
+
   describe('link', () => {
     test('should format correctly', () => {
       textarea.value = 'Hello World';

@@ -30,6 +30,19 @@ const Formats = {
   },
 
   /**
+   * Strikethrough text.
+   *
+   * @example
+   * editor.format('strikethrough');
+   * assert(textarea.value == '~~Hello World~~')
+   */
+
+  strikethrough: {
+    prefix: '~~',
+    suffix: '~~'
+  },
+
+  /**
    * Insert link.
    *
    * @example
