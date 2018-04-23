@@ -23,10 +23,7 @@ export default class TextareaEditor {
     const el = this.el;
 
     if (range == null) {
-      return [
-        el.selectionStart || 0,
-        el.selectionEnd || 0
-      ];
+      return [el.selectionStart || 0, el.selectionEnd || 0];
     }
 
     this.focus();
@@ -37,7 +34,7 @@ export default class TextareaEditor {
   /**
    * Insert given text at the current cursor position.
    *
-   * @param {String} text - text to insert
+   * @param {String} text - text to insert
    * @return {TextareaEditor}
    */
 
@@ -48,7 +45,7 @@ export default class TextareaEditor {
 
     try {
       document.execCommand('insertText', false, text);
-    } catch(e) {
+    } catch (e) {
       inserted = false;
     }
 
@@ -60,7 +57,7 @@ export default class TextareaEditor {
       document.execCommand('ms-beginUndoUnit');
     } catch (e) {}
 
-    const {before, after} = this.selection();
+    const { before, after } = this.selection();
     this.el.value = before + text + after;
 
     try {
@@ -98,7 +95,7 @@ export default class TextareaEditor {
       before: value.slice(0, start),
       content: value.slice(start, end),
       after: value.slice(end)
-    }
+    };
   }
 
   /**
@@ -134,7 +131,6 @@ export default class TextareaEditor {
     return this.format(format, ...args);
   }
 
-
   /**
    * Format current selcetion with given `format`.
    *
@@ -144,8 +140,8 @@ export default class TextareaEditor {
 
   format(name, ...args) {
     const format = this.getFormat(name);
-    const {prefix, suffix, multiline} = format;
-    let {before, content, after} = this.selection();
+    const { prefix, suffix, multiline } = format;
+    let { before, content, after } = this.selection();
     let lines = multiline ? content.split('\n') : [content];
     let [start, end] = this.range();
 
@@ -167,20 +163,24 @@ export default class TextareaEditor {
     let insert = lines.join('\n');
 
     // newlines before and after block
-    if (format.block) {
+    if (format.block) {
       let nlb = matchLength(before, /\n+$/);
       let nla = matchLength(after, /^\n+/);
 
-      while (before && nlb < 2) {
-        insert = `\n${insert}`;
-        start++;
-        end++;
-        nlb++;
+      if (before) {
+        while (nlb < 2) {
+          insert = `\n${insert}`;
+          start++;
+          end++;
+          nlb++;
+        }
       }
 
-      while (after && nla < 2) {
-        insert = `${insert}\n`;
-        nla++;
+      if (after) {
+        while (nla < 2) {
+          insert = `${insert}\n`;
+          nla++;
+        }
       }
     }
 
@@ -200,8 +200,8 @@ export default class TextareaEditor {
     if (!this.hasFormat(name)) return this;
 
     const format = this.getFormat(name);
-    const {prefix, suffix, multiline} = format;
-    const {before, content, after} = this.selection();
+    const { prefix, suffix, multiline } = format;
+    const { before, content, after } = this.selection();
     let lines = multiline ? content.split('\n') : [content];
     let [start, end] = this.range();
 
@@ -215,11 +215,11 @@ export default class TextareaEditor {
     }
 
     // remove formatting from lines
-    lines = lines.map((line) => {
+    lines = lines.map(line => {
       const plen = prefixLength(line, prefix);
       const slen = suffixLength(line, suffix);
       return line.slice(plen, line.length - slen);
-    })
+    });
 
     // insert and set selection
     let insert = lines.join('\n');
@@ -238,27 +238,29 @@ export default class TextareaEditor {
 
   hasFormat(name) {
     const format = this.getFormat(name);
-    const {prefix, suffix, multiline} = format;
-    const {before, content, after} = this.selection();
+    const { prefix, suffix, multiline } = format;
+    const { before, content, after } = this.selection();
     const lines = content.split('\n');
 
     // prefix and suffix outside selection
     if (!multiline) {
-      return (hasSuffix(before, prefix) && hasPrefix(after, suffix))
-        || (hasPrefix(content, prefix) && hasSuffix(content, suffix))
+      return (
+        (hasSuffix(before, prefix) && hasPrefix(after, suffix)) ||
+        (hasPrefix(content, prefix) && hasSuffix(content, suffix))
+      );
     }
 
     // check which line(s) are formatted
-    const formatted = lines.filter((line) => {
+    const formatted = lines.filter(line => {
       return hasPrefix(line, prefix) && hasSuffix(line, suffix);
     });
 
-    return formatted.length == lines.length;
+    return formatted.length === lines.length;
   }
 }
 
 // Expose formats
-export {Formats};
+export { Formats };
 
 /**
  * Check if given prefix is present.
@@ -299,7 +301,7 @@ function hasSuffix(text, suffix) {
  * @private
  */
 
-function matchLength (text, exp) {
+function matchLength(text, exp) {
   const match = text.match(exp);
   return match ? match[0].length : 0;
 }
@@ -309,7 +311,7 @@ function matchLength (text, exp) {
  * @private
  */
 
-function prefixLength (text, prefix) {
+function prefixLength(text, prefix) {
   const exp = new RegExp(`^${prefix.pattern}`);
   return matchLength(text, exp);
 }
@@ -319,7 +321,7 @@ function prefixLength (text, prefix) {
  * @private
  */
 
-function suffixLength (text, suffix) {
+function suffixLength(text, suffix) {
   let exp = new RegExp(`${suffix.pattern}$`);
   return matchLength(text, exp);
 }
@@ -364,7 +366,5 @@ function normalizePrefixSuffix(value = '') {
  */
 
 function maybeCall(value, ...args) {
-  return typeof value == 'function'
-    ? value(...args)
-    : value;
+  return typeof value == 'function' ? value(...args) : value;
 }

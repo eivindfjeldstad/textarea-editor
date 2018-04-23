@@ -9,7 +9,8 @@
     "test": "jest",
     "test-cov": "jest --coverage --runInBand --forceExit",
     "docs": "documentation readme ./src/*.js --section=API",
-    "prepublish": "yarn run build"
+    "prepublish": "yarn run build",
+    "lint": "eslint src test"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,13 @@
     "parcel-bundler": "^1.7.1"
   },
   "dependencies": {
-    "escape-string-regexp": "^1.0.5"
+    "escape-string-regexp": "^1.0.5",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1"
   },
   "jest": {
     "testMatch": [
