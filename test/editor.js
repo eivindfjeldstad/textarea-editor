@@ -286,6 +286,15 @@ describe('TextareaEditor', () => {
       expect(editor.range()).toEqual([0, 12]);
     });
 
+    test('should treat multiline commands like regular commands if only one line is selected', () => {
+      const text = '**Hello**\n**World!**';
+      textarea.value = text;
+      editor.range([2, 7]);
+      editor.unformat({ multiline: true, prefix: '**', suffix: '**' });
+      expect(textarea.value).toBe('Hello\n**World!**');
+      expect(editor.range()).toEqual([0, 5]);
+    });
+
     describe('when given a string', () => {
       test('should use built-in formats', () => {
         textarea.value = 'Hello **World!**';
@@ -330,6 +339,14 @@ describe('TextareaEditor', () => {
       const text = '**Hello**\n**World!**';
       textarea.value = text;
       editor.range([0, text.length]);
+      const result = editor.hasFormat({ prefix: '**', suffix: '**', multiline: true });
+      expect(result).toBe(true);
+    });
+
+    test('should treat multiline commands like regular commands if only one line is selected', () => {
+      const text = '**Hello**\n**World!**';
+      textarea.value = text;
+      editor.range([2, 7]);
       const result = editor.hasFormat({ prefix: '**', suffix: '**', multiline: true });
       expect(result).toBe(true);
     });

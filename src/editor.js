@@ -200,14 +200,23 @@ export default class TextareaEditor {
     if (!this.hasFormat(name)) return this;
 
     const format = this.getFormat(name);
+
     const { prefix, suffix, multiline } = format;
     const { before, content, after } = this.selection();
-    let lines = multiline ? content.split('\n') : [content];
+
+    let lines = multiline
+      ? content.split('\n')
+      : [content];
+
     let [start, end] = this.range();
 
     // If this is not a multiline format, include prefixes and suffixes just
     // outside the selection.
-    if (!multiline && hasSuffix(before, prefix) && hasPrefix(after, suffix)) {
+    if (
+      (!multiline || lines.length == 1)  &&
+      hasSuffix(before, prefix) &&
+      hasPrefix(after, suffix)
+    ) {
       start -= suffixLength(before, prefix);
       end += prefixLength(after, suffix);
       this.range([start, end]);
@@ -243,7 +252,7 @@ export default class TextareaEditor {
     const lines = content.split('\n');
 
     // prefix and suffix outside selection
-    if (!multiline) {
+    if (!multiline || lines.length == 1) {
       return (
         (hasSuffix(before, prefix) && hasPrefix(after, suffix)) ||
         (hasPrefix(content, prefix) && hasSuffix(content, suffix))
