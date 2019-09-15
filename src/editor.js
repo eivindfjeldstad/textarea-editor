@@ -44,7 +44,7 @@ export default class TextareaEditor {
     this.focus();
 
     try {
-      document.execCommand('insertText', false, text);
+      inserted = document.execCommand('insertText', false, text);
     } catch (e) {
       inserted = false;
     }

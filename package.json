@@ -1,6 +1,6 @@
 {
   "name": "textarea-editor",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Simple markdown editor for textareas",
   "main": "build/editor.js",
   "scripts": {
@@ -32,18 +32,18 @@
     "babel-core": "^6.26.0",
     "babel-jest": "^23.0.0",
     "babel-preset-env": "^1.6.1",
-    "documentation": "^9.1.0",
+    "documentation": "^10.0.0",
     "jest": "^23.5.0",
     "parcel-bundler": "^1.7.1",
-    "eslint": "^5.0.0",
+    "eslint": "^6.0.0",
     "eslint-config-standard": "^13.0.1",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-node": "^9.0.0",
     "eslint-plugin-standard": "^4.0.0"
   },
   "dependencies": {
-    "escape-string-regexp": "^1.0.5"
+    "escape-string-regexp": "^2.0.0"
   },
   "jest": {
     "testMatch": [
